@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import ColumnList from './ColumnList';
 import logo from './logo.svg';
 import './App.css';
@@ -11,6 +13,17 @@ class App extends Component {
     }
     this.updateTask = this.updateTask.bind(this);
     this.addTask = this.addTask.bind(this);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const data = nextProps.data
+    if(data) {
+      this.setState({
+        items: data.allTasks
+      }, () => {
+        console.log(this.state)
+      })
+    }
   }
 
   componentWillMount() {
@@ -80,4 +93,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const Query = gql`query allTasks{
+  allTasks{
+    id
+    status
+    title
+  }
+}`
+
+export default graphql(Query)(App);
