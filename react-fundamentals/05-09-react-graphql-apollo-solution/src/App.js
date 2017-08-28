@@ -37,22 +37,23 @@ class App extends Component {
 
   addTask(e) {
     e.preventDefault();
-    const value = e.target.querySelector('input').value;
-    this.setState(prev => {
-      const { items = [] } = prev;
-      const newTask = {
-        id: items.length + 1,
-        title: value,
+    const title = e.target.querySelector('input').value;
+    e.target.querySelector('input').value = ''    
+    this.props.createTask({
+      variables: {
+        title,
         status: 'To Do'
-      };
-      items.push(newTask)
-      this.updateLocalStorage(items);
-      return { items: items };
-    });
+      }
+    }).then((response) => {
+      this.props.data.refetch()
+      console.log('response', response)
+    }).catch((err) => {
+      console.log('err', err)
+    })
   }
 
   updateTask(target, task) {
-    this.props.mutate({
+    this.props.updateTask({
       variables: {
         id: task.id,
         status: target.checked ? 'Done' : 'To Do'
@@ -95,6 +96,14 @@ class App extends Component {
   }
 }
 
+const CreateTaskMutation = gql`mutation createTask ($status: String, $title: String!) {
+  createTask(status: $status, title: $title) {
+    id
+    status
+    title
+  }
+}`
+
 const Query = gql`query allTasks{
   allTasks{
     id
@@ -103,7 +112,7 @@ const Query = gql`query allTasks{
   }
 }`
 
-const Mutation = gql`mutation updateTask ($id: ID!, $status: String, $title: String){
+const UpdateTaskMutation = gql`mutation updateTask ($id: ID!, $status: String, $title: String){
   updateTask(id: $id, status: $status, title: $title){
     id
     status
@@ -113,6 +122,7 @@ const Mutation = gql`mutation updateTask ($id: ID!, $status: String, $title: Str
 
 export default compose(
   graphql(Query),
-  graphql(Mutation)
+  graphql(UpdateTaskMutation, {name: 'updateTask'}),
+  graphql(CreateTaskMutation, {name: 'createTask'})
 ) 
 (App);
