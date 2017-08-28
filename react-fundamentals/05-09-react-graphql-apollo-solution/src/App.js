@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import ColumnList from './ColumnList';
 import logo from './logo.svg';
@@ -52,14 +52,16 @@ class App extends Component {
   }
 
   updateTask(target, task) {
-    this.setState(function (state, b) {
-      const { items = [] } = state;
-      const s = items.filter(_ => _.id !== task.id);
-      task.status = target.checked ? 'Done' : 'To Do';
-      s.push(task);
-      this.updateLocalStorage(s);
-      return { items: s };
-    });
+    this.props.mutate({
+      variables: {
+        id: task.id,
+        status: target.checked ? 'Done' : 'To Do'
+      }
+    }).then((response) => {
+      console.log('response', response)
+    }).catch((err) => {
+      console.log('err', err)
+    })
   }
 
   render() {
@@ -101,4 +103,16 @@ const Query = gql`query allTasks{
   }
 }`
 
-export default graphql(Query)(App);
+const Mutation = gql`mutation updateTask ($id: ID!, $status: String, $title: String){
+  updateTask(id: $id, status: $status, title: $title){
+    id
+    status
+    title
+  }
+}`
+
+export default compose(
+  graphql(Query),
+  graphql(Mutation)
+) 
+(App);
