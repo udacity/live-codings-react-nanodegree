@@ -2,7 +2,7 @@ import React from 'react';
 import If from './If';
 import './ColumnList.css';
 
-const ColumnList = ({ title, items = [], updateTask, addTask }) => {
+const ColumnList = ({ title, items = [], updateTask, addTask, deleteTask }) => {
   const currentItems = items.filter(_ => _.status === title);
 
   return (
@@ -25,6 +25,11 @@ const ColumnList = ({ title, items = [], updateTask, addTask }) => {
               checked={title === 'Done'}
             />
             <span>{item.title}</span>
+            <button style={{float: 'right'}} 
+              onClick={(e) => {
+                deleteTask(item.id)
+              }}> X
+            </button>
           </li>
         ))}
       </ul>

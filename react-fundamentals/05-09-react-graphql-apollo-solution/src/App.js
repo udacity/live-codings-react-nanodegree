@@ -13,6 +13,7 @@ class App extends Component {
     }
     this.updateTask = this.updateTask.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -26,15 +27,6 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-    const toDoListItems = window.localStorage.getItem('toDoListItems') || '[]';
-    this.setState({ items: JSON.parse(toDoListItems) });
-  }
-
-  updateLocalStorage(items) {
-    window.localStorage.setItem('toDoListItems', JSON.stringify(items));
-  }
-
   addTask(e) {
     e.preventDefault();
     const title = e.target.querySelector('input').value;
@@ -46,7 +38,6 @@ class App extends Component {
       }
     }).then((response) => {
       this.props.data.refetch()
-      console.log('response', response)
     }).catch((err) => {
       console.log('err', err)
     })
@@ -62,6 +53,18 @@ class App extends Component {
       console.log('response', response)
     }).catch((err) => {
       console.log('err', err)
+    })
+  }
+
+  deleteTask (id) {
+    this.props.deleteTask({
+      variables: {
+        id
+      }
+    }).then((response) => {
+      this.props.data.refetch()
+    }).catch((err) => {
+      console.log(err)
     })
   }
 
@@ -81,13 +84,15 @@ class App extends Component {
         <div className="App-container">
           <div className="app-lists">
             {columns.map(item => (
-              <ColumnList
-                key={item.title}
-                title={item.title}
-                items={item.items}
-                updateTask={this.updateTask}
-                addTask={this.addTask}
-              />
+              <ColumnList {
+                ...{
+                  key: item.title,
+                  ...item,
+                  updateTask: this.updateTask,
+                  addTask: this.addTask,
+                  deleteTask: this.deleteTask
+                }
+              }/>
             ))}
           </div>
         </div>
@@ -120,9 +125,16 @@ const UpdateTaskMutation = gql`mutation updateTask ($id: ID!, $status: String, $
   }
 }`
 
+const DeleteTask = gql`mutation deleteTask ($id:ID!){
+  deleteTask(id:$id){
+    id
+  }
+}`
+
 export default compose(
   graphql(Query),
   graphql(UpdateTaskMutation, {name: 'updateTask'}),
-  graphql(CreateTaskMutation, {name: 'createTask'})
+  graphql(CreateTaskMutation, {name: 'createTask'}),
+  graphql(DeleteTask, {name: 'deleteTask'})
 ) 
 (App);
