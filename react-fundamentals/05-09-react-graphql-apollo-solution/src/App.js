@@ -35,9 +35,12 @@ class App extends Component {
       variables: {
         title,
         status: 'To Do'
-      }
+      },
+      refetchQueries: [{
+        query: Query
+      }]
     }).then((response) => {
-      this.props.data.refetch()
+      console.log(response)
     }).catch((err) => {
       console.log('err', err)
     })
@@ -60,9 +63,12 @@ class App extends Component {
     this.props.deleteTask({
       variables: {
         id
-      }
+      }, 
+      refetchQueries: [{
+        query: Query
+      }]
     }).then((response) => {
-      this.props.data.refetch()
+      console.log(response)
     }).catch((err) => {
       console.log(err)
     })
@@ -82,8 +88,9 @@ class App extends Component {
           <h2>To Do List</h2>
         </div>
         <div className="App-container">
+          {this.props.data.loading && (<div>Loading...</div>)}
           <div className="app-lists">
-            {columns.map(item => (
+            {!this.props.data.loading && columns.map(item => (
               <ColumnList {
                 ...{
                   key: item.title,
@@ -136,5 +143,4 @@ export default compose(
   graphql(UpdateTaskMutation, {name: 'updateTask'}),
   graphql(CreateTaskMutation, {name: 'createTask'}),
   graphql(DeleteTask, {name: 'deleteTask'})
-) 
-(App);
+)(App);
