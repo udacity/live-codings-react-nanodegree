@@ -2,6 +2,10 @@
 
 Esse é o repositório contendo o código da sessão apresentada para o React Nanodegree da Udacity Brasil.
 
+Você pode encontrar os [slides da apresentação nesse repositório](./docs/udacity-iniciando-com-testes-em-react.pdf)
+
+<img src="./docs/slides.png" width="400px">
+
 Os testes aqui escritos estão baseado no projeto [Começando com React](https://github.com/udacity/live-codings-react-nanodegree/tree/master/react-fundamentals/16-08-comecando-com-react-solution), que foi a primeira sessão apresentada para a turma do React Nanodegree.
 
 Nesse repositório, você encontrará os exemplos finais de todos os testes necessários para atingir 100% de cobertura de código no projeto selecionado.
