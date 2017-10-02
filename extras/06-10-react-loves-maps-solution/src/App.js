@@ -4,18 +4,6 @@ import './App.css';
 import MapWithASearchBox from './Map'
 
 class App extends Component {
-
-  componentDidMount () {
-    fetch('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson')
-    .then ((response) => {
-      response.json().then((geoResponse) => {
-        console.log(geoResponse)
-      }).catch(err => console.log(err))
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
-
   render() {
     return (
       <div className="App">
