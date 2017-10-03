@@ -1,9 +1,10 @@
 import React from 'react'
-import {GoogleMap, withGoogleMap, withScriptjs} from 'react-google-maps'
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from 'react-google-maps'
 
 const Map = withScriptjs(withGoogleMap((props) => {
     return(
-        <GoogleMap defaultCenter={{ lat: -34.397, lng: 150.644 }} defaultZoom={8}>
+        <GoogleMap defaultZoom={9} center={{lat: 41.9, lng: -87.624}}>
+            <Marker position={{lat: 41.9, lng: -87.624}}/>
         </GoogleMap>
     )
 }))
