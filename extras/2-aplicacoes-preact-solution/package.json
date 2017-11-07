@@ -1,0 +1,30 @@
+{
+  "name": "udacity-preact",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Caio Gondim",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --config './webpack.config.js'",
+    "build": "NODE_ENV=production webpack --config './webpack.config.js' && minify build/main.js -d build",
+    "build:legacy": "NODE_ENV=production webpack --config './webpack.config.legacy.js' && minify build/main-legacy.js -d build/",
+    "analyze": "NODE_ENV=production webpack --config './webpack.config.analyze.js'"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-minify": "^0.2.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "file-loader": "^1.1.5",
+    "webpack": "^3.8.1",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.2"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "preact": "^8.2.5",
+    "preact-redux": "^2.0.3",
+    "redux": "^3.7.2"
+  }
+}
