@@ -1,0 +1,10 @@
+body {
+  background: #ece7e7;
+}
+
+.redBg {
+  background-color: red;
+  border-radius: 51px;
+  color: white;
+  padding: 5px;
+}
