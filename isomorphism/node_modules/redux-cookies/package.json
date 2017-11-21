@@ -1,0 +1,35 @@
+{
+  "author": {
+    "name": "mrcheater"
+  },
+  "bugs": {
+    "url": "https://github.com/MrCheater/redux-cookies/issues"
+  },
+  "description": "Redux cookies-middleware and cookies-actions for Isomorphic(Universal) cookies",
+  "homepage": "https://github.com/MrCheater/redux-cookies#readme",
+  "keywords": [
+    "redux",
+    "cookies",
+    "middleware",
+    "actions",
+    "isomorphic",
+    "universal"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "mister.cheater@list.ru",
+      "name": "mrcheater"
+    }
+  ],
+  "name": "redux-cookies",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrCheater/redux-cookies.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.1"
+}
