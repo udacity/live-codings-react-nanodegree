@@ -1,14 +1,14 @@
-import React from 'react';
-import If from './If';
-import './ColumnList.css';
+import React from 'react'
+import './ColumnList.css'
+import If from './If'
 
-const ColumnList = ({ title, items = [], updateTask, addTask }) => {
-  const currentItems = items.filter(_ => _.status === title);
-
+const ColumnList = ({ columnTitle, tasks, addTask, updateTask }) => {
+  const currentTasks = tasks.filter(task => task.status === columnTitle)
+  
   return (
     <div className="column-list">
-      <h3>{title}</h3>
-      <If test={title === 'To Do'}>
+      <h3>{columnTitle}</h3>
+      <If test={columnTitle === 'To Do'}>
         <form onSubmit={addTask}>
           <input placeholder="Create new task" type="text" />
           <button type="submit">
@@ -17,20 +17,19 @@ const ColumnList = ({ title, items = [], updateTask, addTask }) => {
         </form>
       </If>
       <ul className="list-items">
-        {currentItems.map(item => (
-          <li key={item.id}>
+        {currentTasks.map(task => (
+          <li key={task.id}>
             <input
               type="checkbox"
-              onChange={(e) => updateTask(e.target, item)}
-              checked={title === 'Done'}
+              onChange={(e) => updateTask(e.target, task)}
+              checked={columnTitle === 'Done'}
             />
-            <span>{item.title}</span>
+            <span>{task.description}</span>
           </li>
         ))}
       </ul>
     </div>
-  );
+  )
 }
 
-export default ColumnList;
-
+export default ColumnList

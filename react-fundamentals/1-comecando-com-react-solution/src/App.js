@@ -1,61 +1,60 @@
-import React, { Component } from 'react';
-import ColumnList from './ColumnList';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
+import ColumnList from './ColumnList'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: []
-    }
-    this.updateTask = this.updateTask.bind(this);
-    this.addTask = this.addTask.bind(this);
+  state = {
+    tasks: []
   }
 
   componentWillMount() {
-    const toDoListItems = window.localStorage.getItem('toDoListItems') || '[]';
-    this.setState({ items: JSON.parse(toDoListItems) });
+    console.log("Wil mount..")
+    const toDoListTasks = window.localStorage.getItem('toDoListTasks') || '[]'
+    this.setState({ tasks: JSON.parse(toDoListTasks) })
   }
 
-  updateLocalStorage(items) {
-    window.localStorage.setItem('toDoListItems', JSON.stringify(items));
+  updateLocalStorage(tasks) {
+    const stringfiedTasks = JSON.stringify(tasks)
+    window.localStorage.setItem('toDoListTasks', stringfiedTasks)
   }
 
-  addTask(e) {
-    e.preventDefault();
-    const value = e.target.querySelector('input').value;
-    this.setState(prev => {
-      const { items = [] } = prev;
-      const newTask = {
-        id: items.length + 1,
-        title: value,
-        status: 'To Do'
-      };
-      items.push(newTask)
-      this.updateLocalStorage(items);
-      return { items: items };
-    });
+  updateAndSave(tasks) {
+    this.updateLocalStorage(tasks)
+    this.setState({ tasks })
   }
 
-  updateTask(target, task) {
-    this.setState(function (state, b) {
-      const { items = [] } = state;
-      const s = items.filter(_ => _.id !== task.id);
-      task.status = target.checked ? 'Done' : 'To Do';
-      s.push(task);
-      this.updateLocalStorage(s);
-      return { items: s };
-    });
+  addTask(e){
+    e.preventDefault()
+    console.log("Adding task...")
+
+    let { tasks } = this.state
+    const value = e.target.querySelector('input').value
+    const newTask = {
+      id: tasks.length + 1,
+      description: value,
+      status: 'To Do'
+    }
+    tasks = tasks.concat(newTask)
+    this.updateAndSave(tasks)
+  }
+
+  updateTask(target, task){
+    console.log("Updating task...")
+    let { tasks } = this.state
+    tasks = tasks.filter(t => t.id !== task.id).concat({
+      ...task,
+      status: target.checked ? 'Done' : 'To Do'
+    })
+    this.updateAndSave(tasks)
   }
 
   render() {
-    const { items } = this.state;
+    const { tasks } = this.state
     const columns = [
-      { title: 'To Do', items },
-      { title: 'Done', items }
-    ];
-
+      { title: 'To Do', tasks },
+      { title: 'Done', tasks }
+    ]
     return (
       <div className="App">
         <div className="App-header">
@@ -63,18 +62,20 @@ class App extends Component {
           <h2>To Do List</h2>
         </div>
         <div className="App-container">
+
           <div className="app-lists">
-            {columns.map(item => (
+            {columns.map(column => (
               <ColumnList
-                key={item.title}
-                title={item.title}
-                items={item.items}
-                updateTask={this.updateTask}
-                addTask={this.addTask}
-              />
+                key={column.title}
+                columnTitle={column.title}
+                tasks={column.tasks}
+                addTask={(e) => this.addTask(e)}
+                updateTask={(target, task) => this.updateTask(target, task)}
+               />
             ))}
           </div>
         </div>
+
       </div>
     );
   }
