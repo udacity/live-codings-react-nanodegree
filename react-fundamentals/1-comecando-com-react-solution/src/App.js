@@ -9,7 +9,6 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log("Wil mount..")
     const toDoListTasks = window.localStorage.getItem('toDoListTasks') || '[]'
     this.setState({ tasks: JSON.parse(toDoListTasks) })
   }
@@ -26,7 +25,6 @@ class App extends Component {
 
   addTask(e){
     e.preventDefault()
-    console.log("Adding task...")
 
     let { tasks } = this.state
     const value = e.target.querySelector('input').value
@@ -40,7 +38,6 @@ class App extends Component {
   }
 
   updateTask(target, task){
-    console.log("Updating task...")
     let { tasks } = this.state
     tasks = tasks.filter(t => t.id !== task.id).concat({
       ...task,
