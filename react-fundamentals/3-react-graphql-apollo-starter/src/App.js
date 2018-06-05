@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ColumnList from './ColumnList';
 import logo from './logo.svg';
 import './App.css';
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +18,10 @@ class App extends Component {
   componentWillMount() {
     const toDoListItems = window.localStorage.getItem('toDoListItems') || '[]';
     this.setState({ items: JSON.parse(toDoListItems) });
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps)
   }
 
   updateLocalStorage(items) {
@@ -80,4 +86,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const Query = gql`query allTasks{
+  allTasks{
+    id
+    status
+    title
+  }
+}`
+
+export default graphql(Query)(App);
