@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-client": "^1.9.2",
-    "react": "^15.6.1",
-    "react-apollo": "^1.4.15",
-    "react-dom": "^15.6.1",
+    "apollo-client-preset": "^1.0.8",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "react": "^16.4.0",
+    "react-apollo": "^2.1.4",
+    "react-dom": "^16.4.0",
     "react-scripts": "1.0.10"
   },
   "scripts": {
