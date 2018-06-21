@@ -1,0 +1,47 @@
+.App {
+  align-items: center;
+  background: url('./assets/background-illustration.png') no-repeat;
+  background-size: contain; 
+  background-color: #0F4583;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  padding: 1em;
+  width: 100vw;
+}
+
+.App__title {
+  color: white;
+  margin-bottom: 1em; 
+}
+
+.App__fetching {
+  color: white;
+}
+
+.App__error {
+  color: #EF5350;
+}
+
+.App__error button {
+  background-color: #EF5350;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  padding: .5em;
+  text-transform: uppercase;
+}
+
+.App__game {
+  background: white;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+  color: #9E9E9E;
+  margin-bottom: 1em;
+  padding: .5em;
+  width: 350px;
+}

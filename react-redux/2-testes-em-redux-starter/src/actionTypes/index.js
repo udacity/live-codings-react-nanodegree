@@ -1,0 +1,3 @@
+export const START_FETCHING = 'START_FETCHING';
+export const THROW_ERROR = 'THROW_ERROR';
+export const UPDATE_GAMES = 'UPDATE_GAMES';

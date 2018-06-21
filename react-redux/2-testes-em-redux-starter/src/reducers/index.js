@@ -1,24 +1,26 @@
+import {
+  START_FETCHING,
+  THROW_ERROR,
+  UPDATE_GAMES,
+} from '../actionTypes';
+
 const initialState = {
-  items: [],
+  error: false,
   fetching: false,
-  error: false
-}
+  games: [],
+};
 
 const app = (state = initialState, action) => {
   switch (action.type) {
-    case 'START_FETCHING':
-      return { ...state, fetching: true }
-    case 'THROW_ERROR':
-      return { ...state, error: true, fetching: false }
-    case 'UPDATE_ITEMS':
-      return { ...state, 
-        items: action.items,
-        fetching: false,
-        error: false
-      }
+    case START_FETCHING:
+      return { ...state, error: false, fetching: true };
+    case THROW_ERROR:
+      return { ...state, error: true, fetching: false };
+    case UPDATE_GAMES:
+      return { ...state, games: action.games, fetching: false };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default app
+export default app;
