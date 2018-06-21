@@ -1,84 +1,62 @@
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import fetchMock from 'fetch-mock'
-import * as actions from './index'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
-const middlewares = [ thunk ]
-const mockStore = configureMockStore(middlewares)
+import fetch from '../__test-helpers__/fetch';
+import games from '../__test-helpers__/games';
+import {
+  START_FETCHING,
+  THROW_ERROR,
+  UPDATE_GAMES,
+} from '../actionTypes';
+import * as actions from './';
 
-describe('actions', async () => {
-  afterEach(() => {
-    fetchMock.reset()
-    fetchMock.restore()
-  })
-  
+const mockStore = configureMockStore([ thunk ]);
+const store = mockStore({
+  error: false,
+  fetching: false,
+  games: [],
+});
+
+describe('action creators', () => {
   it('startFetching should dispatch a START_FETCHING action', () => {
     expect(actions.startFetching())
-      .toEqual({
-        type: 'START_FETCHING'
-      })
-  })
+      .toEqual({ type: START_FETCHING });
+  });
 
   it('throwError should dispatch a THROW_ERROR action', () => {
     expect(actions.throwError())
+      .toEqual({ type: THROW_ERROR });
+  });
+
+  it('updateGames should dispatch an UPDATE_GAMES action', () => {
+    expect(actions.updateGames(games))
       .toEqual({
-        type: 'THROW_ERROR'
-      })
-  })
+        type: UPDATE_GAMES,
+        games,
+      });
+  });
 
-  it('updateItems should dispath an UPDATE_ITEMS action', () => {
-    expect(actions.updateItems({
-      items: [
-        { title: 'A New Hope', episode_id: 4 }
-      ]
-    }))
-      .toEqual({
-        type: 'UPDATE_ITEMS',
-        items: [
-          { title: 'A New Hope', episode_id: 4 }
-        ]
-      })
-  })
-  
-  it('successful getData should dispatch START_FETCHING and UPDATE_ITEMS action', () => {
-    const store = mockStore({
-      fetching: false,
-      error: false,
-      items: [],
-    })
-    
+  afterEach(() => store.clearActions());
+
+  it('successful getGames calls startFetching and updateGames', () => {
+    window.fetch = fetch.successful(games);
     const expectedActions = [
-      { type: 'START_FETCHING' }, 
-      { type: 'UPDATE_ITEMS', items: [{ title: 'A New Hope', episode_id: 4 }]}
-    ]
+      { type: START_FETCHING },
+      { type: UPDATE_GAMES, games },
+    ];
 
-    fetchMock.get('*', {
-      body: {
-        results: [
-          { title: 'A New Hope', episode_id: 4 }
-        ]
-      }
-    })
+    return store.dispatch(actions.getGames())
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+  });
 
-    return store.dispatch(actions.getData('films'))
-      .then(() => expect(store.getActions()).toEqual(expectedActions))
-  })
-
-  it('failed getData should dispatch START_FETCHING and THROW_ERROR action', () => {
-    const store = mockStore({
-      fetching: false,
-      error: false,
-      items: []
-    })
-    
+  it('failing getGames calls startFetching and throwError', () => {
+    window.fetch = fetch.failing();
     const expectedActions = [
-      { type: 'START_FETCHING' }, 
-      { type: 'THROW_ERROR'}
-    ]
+      { type: START_FETCHING },
+      { type: THROW_ERROR },
+    ];
 
-    fetchMock.get('*', { throws: 'Unexpected error!' })
-    return store.dispatch(actions.getData('films'))
-      .then(() => expect(store.getActions()).toEqual(expectedActions))
-  })
-})
-
+    return store.dispatch(actions.getGames())
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+  });
+});

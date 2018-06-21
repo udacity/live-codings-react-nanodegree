@@ -1,15 +1,23 @@
-export const startFetching = () => ({ type: 'START_FETCHING' })
-export const throwError = () => ({ type: 'THROW_ERROR' })
-export const updateItems = ({ items }) => ({ type: 'UPDATE_ITEMS', items })
+import {
+  START_FETCHING,
+  THROW_ERROR,
+  UPDATE_GAMES,
+} from '../actionTypes';
 
-export function getData(dataType) {
+export const startFetching = () => ({ type: START_FETCHING });
+export const throwError = () => ({ type: THROW_ERROR });
+export const updateGames = games => ({ type: UPDATE_GAMES, games });
+
+export function getGames() {
   return dispatch => {
-    dispatch(startFetching())
-    return fetch('https://swapi.co/api/' + dataType)
+    dispatch(startFetching());
+
+    return fetch('https://world-cup-json.herokuapp.com/matches/today')
       .then(res => res.json())
-      .then(data => dispatch(updateItems({
-        items: data.results
-      })))
-      .catch(err => dispatch(throwError()))
-  }
-}
+      .then(data => dispatch(updateGames(data)))
+      .catch(err => {
+        console.error(err);
+        dispatch(throwError())
+      });
+  };
+};

@@ -1,46 +1,50 @@
-import app from './index'
+import games from '../__test-helpers__/games';
+import {
+  START_FETCHING,
+  THROW_ERROR,
+  UPDATE_GAMES,
+} from '../actionTypes';
+import app from './';
 
 describe('app reducer', () => {
   it('should handle initial state', () => {
     expect(app(undefined, {}))
       .toEqual({
-        items: [],
+        error: false,
         fetching: false,
-        error: false
-      })
-  })
+        games: [],
+      });
+  });
 
   it('should handle START_FETCHING action', () => {
     expect(app({}, {
-      type: 'START_FETCHING'
+      type: START_FETCHING,
     }))
       .toEqual({
-        fetching: true
-      })
-  })
+        error: false,
+        fetching: true,
+      });
+  });
+
 
   it('should handle THROW_ERROR action', () => {
     expect(app({}, {
-      type: 'THROW_ERROR'
+      type: THROW_ERROR,
     }))
       .toEqual({
         error: true,
-        fetching: false
-      })
-  })
+        fetching: false,
+      });
+  });
 
-  it('should handle UPDATE_ITEMS action', () => {
+  it('should handle UPDATE_GAMES action', () => {
     expect(app({}, {
-      type: 'UPDATE_ITEMS',
-      items: [
-        { title: 'A New Hope', episode_id: 4 }
-      ]
+      type: UPDATE_GAMES,
+      games,
     }))
       .toEqual({
-        items: [
-          { title: 'A New Hope', episode_id: 4 }
-        ],
-        fetching: false
-      })
-  })
-})
+        fetching: false,
+        games,
+      });
+  });
+});
