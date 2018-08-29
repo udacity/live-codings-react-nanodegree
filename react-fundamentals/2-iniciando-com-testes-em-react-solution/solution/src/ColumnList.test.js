@@ -1,39 +1,43 @@
-import React from 'react'
-import { shallow, mount } from 'enzyme'
-import ColumnList from './ColumnList'
+import React from 'react';
+import { mount } from 'enzyme';
+import ColumnList from './ColumnList';
+import { wrap } from 'module';
 
-describe('<ColumnList />', () => {
-  it('shallow renders correctly', () => {
-    expect(shallow(<ColumnList />))
-  })
+describe('[Component] ColumnList', () => {
+  const setup = {
+    addTask: jest.fn(),
+    updateTask: jest.fn(),
+  };
 
-  it('mounts correctly', () => {
-    expect(mount(<ColumnList />))
-  })
+  it('renders a form if title is to do', () => {
+    const wrapper = mount(<ColumnList title='To Do' {...setup} />);
+    expect(wrapper.find('form')).toHaveLength(1);
+  });
 
-  it('renders form if title equals To Do', () => {
-    const wrapper = mount(<ColumnList title="To Do" />)
-    expect(wrapper.find('form').length).toBe(1)
-  })
+  it('calls addTask on form submission', () => {
+    const wrapper = mount(<ColumnList title='To Do' {...setup} />);
+    wrapper.find('form').simulate('submit');
+    expect(setup.addTask).toHaveBeenCalled();
+  });
 
-  it('does not render form if title is Done', () => {
-    const wrapper = mount(<ColumnList title="Done" />)
-    expect(wrapper.find('form').length).toBe(0)
-  })
+  it('renders an item for every matching to do', () => {
+    const items = [
+      { id: 1, status: 'To Do', title: 'Live coding' },
+      { id: 2, status: 'Done', title: 'Walk the dog' },
+      { id: 3, status: 'To Do', title: 'Post solutions to live coding' },
+    ];
 
-  const items = [{ id: 0, title: 'an errand to run', status: 'To Do'}]
+    const wrapper = mount(<ColumnList items={items} title='To Do' {...setup} />);
+    expect(wrapper.find('li')).toHaveLength(2);
+  });
 
-  it('expects to map through an array of items and creates a li tag for each one of them', () => {
-    const wrapper = mount(<ColumnList title="To Do" items={items} />)
+  it('calls updateTask on checkbox change', () => {
+    const items = [
+      { id: 2, status: 'Done', title: 'Walk the dog' },
+    ];
 
-    expect(wrapper.find('li').length).toBe(1)
-  })
-
-  it('expects updateTask to be called on checkbox change', () => {
-    const updateTask = jest.fn()
-
-    const wrapper = mount(<ColumnList title="To Do" items={items} updateTask={updateTask}/>)
-    wrapper.find('input[type="checkbox"]').simulate('change')
-    expect(updateTask).toHaveBeenCalledTimes(1)
-  })
-})
+    const wrapper = mount(<ColumnList items={items} title='Done' {...setup} />);
+    wrapper.find('li input').simulate('change');
+    expect(setup.updateTask).toHaveBeenCalled();
+  });
+});

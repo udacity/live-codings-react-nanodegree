@@ -1,56 +1,55 @@
-import React from 'react'
-import { shallow, mount } from 'enzyme'
-import App from './App'
+import React from 'react';
+import { mount, shallow } from 'enzyme';
+import App from './App';
 
-describe('<App />', () => {
-  global.localStorage = { getItem: jest.fn(), setItem: jest.fn() }
-  const wrapper = mount(<App />)
-  afterEach(() => wrapper.setState({ items: []}))
+describe('[Component] App', () => {
+  window.localStorage = {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
 
-  it('shallow renders without crashing', () => {
-    expect(shallow(<App />))
-  })
+  it('initial items state is empty', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.state()).toEqual({ items: [] });
+  });
 
-  it('mounts without crashing', () => {
-    expect(mount(<App />))
-  })
+  it('mounts correctly', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper).toMatchSnapshot();
+  });
 
-  it('has two ColumnList components', () => {
-    expect(wrapper.find('ColumnList').length).toBe(2)
-  })
+  it('has two columns correctly', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.find('ColumnList')).toHaveLength(2);
+  });
 
-  it('creates a new task', () => {
-    expect(wrapper.state().items.length).toBe(0)
+  it('createTask adds an item to items array in state', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.state().items.length).toBe(0);
+    wrapper.find('form input').instance().value = 'new task';
+    wrapper.find('form button').instance().click();
+    expect(wrapper.state().items.length).toBe(1);
+  });
 
-    wrapper.find('form input').instance().value = 'new task'
-    wrapper.find('form button').instance().click()
+  it('updateTask toggles item state to Done ', () => {
+    const wrapper = mount(<App />);
+    wrapper.setState({
+      items: [
+        { id: 1, title: 'errand to run', status: 'To Do' },
+      ],
+    });
+    wrapper.find('input[type="checkbox"]').simulate('change', { target: { checked: true } });
+    expect(wrapper.state().items[0].status).toBe('Done');
+  });
 
-    expect(wrapper.state().items.length).toBe(1)
-  })
-
-  it('updates a task to done', () => {
-    expect(wrapper.state().items.length).toBe(0)
-
-    wrapper
-      .setState({
-        items: [{ id: 1, title: 'errand to run', status: 'To Do' }]
-      })
-      .find('input[type="checkbox"]')
-      .simulate('change', { target: { checked: true }})
-
-    expect(wrapper.state().items[0].status).toBe('Done')
-  })
-
-  it('updates a task to to do', () => {
-    expect(wrapper.state().items.length).toBe(0)
-
-    wrapper
-      .setState({
-        items: [{ id: 1, title: 'errand to run', status: 'Done' }]
-      })
-      .find('input[type="checkbox"]')
-      .simulate('change', { target: { checked: false } })
-
-    expect(wrapper.state().items[0].status).toBe('To Do')
-  })
-})
+  it('updateTask toggles item state back to To Do', () => {
+    const wrapper = mount(<App />);
+    wrapper.setState({
+      items: [
+        { id: 1, title: 'errand to run', status: 'Done' },
+      ],
+    });
+    wrapper.find('input[type="checkbox"]').simulate('change', { target: { checked: false } });
+    expect(wrapper.state().items[0].status).toBe('To Do');
+  });
+});
