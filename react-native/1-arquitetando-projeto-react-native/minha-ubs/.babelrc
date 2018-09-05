@@ -1,0 +1,21 @@
+{
+  "presets": ["react-native"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "cwd": "babelrc",
+        "alias": {
+          "@application" : "./application",
+          "@api"         : "./application/api",
+          "@components"  : "./application/components",
+          "@config"      : "./application/config",
+          "@images"      : "./application/images",
+          "@modules"     : "./application/modules",
+          "@sagas"       : "./application/sagas",
+          "@screens"     : "./application/screens"
+        }
+      }
+    ]
+  ]
+}
