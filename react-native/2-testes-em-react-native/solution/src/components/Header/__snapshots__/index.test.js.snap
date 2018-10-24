@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Component] Header matches snapshots 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "flex-start",
+      "backgroundColor": "#0d47a1",
+      "display": "flex",
+      "height": 128,
+      "justifyContent": "flex-end",
+      "padding": 8,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#ffffff",
+        "fontSize": 36,
+        "fontWeight": "bold",
+        "marginTop": 4,
+      }
+    }
+  >
+    My bills
+  </Text>
+</View>
+`;

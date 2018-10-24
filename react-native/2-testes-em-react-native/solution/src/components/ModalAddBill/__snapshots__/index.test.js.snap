@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Component] ModalAddBill matches snapshot 1`] = `
+<Modal
+  animationType="slide"
+  hardwareAccelerated={false}
+  visible={false}
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      placeholder="Bill description (rent, credit card, ...)"
+      style={
+        Object {
+          "height": 50,
+          "width": "100%",
+        }
+      }
+      underlineColorAndroid="transparent"
+    />
+    <TextInput
+      allowFontScaling={true}
+      keyboard="numeric"
+      onChangeText={[Function]}
+      placeholder="Bill due day (08, ...)"
+      style={
+        Object {
+          "height": 50,
+          "width": "100%",
+        }
+      }
+      underlineColorAndroid="transparent"
+    />
+    <TextInput
+      allowFontScaling={true}
+      keyboard="numeric"
+      onChangeText={[Function]}
+      placeholder="Bill amount (1500, ...)"
+      style={
+        Object {
+          "height": 50,
+          "width": "100%",
+        }
+      }
+      underlineColorAndroid="transparent"
+    />
+    <View
+      accessibilityRole="button"
+      accessibilityStates={Array []}
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "padding": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          Add bill
+        </Text>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

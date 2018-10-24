@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Component] Bill matches snapshot 1`] = `
+<View
+  style={
+    Object {
+      "display": "flex",
+      "padding": 4,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 24,
+        }
+      }
+    >
+      Rent
+    </Text>
+    <Text>
+      Due on  11
+    </Text>
+  </View>
+</View>
+`;
