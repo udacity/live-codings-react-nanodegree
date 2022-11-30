@@ -1,29 +1,29 @@
-import React from 'react';
+import React from "react";
 
-import If from './If';
+import If from "./If";
 
-import './ColumnList.css';
+import "./ColumnList.css";
 
 const ColumnList = ({ tasks, columnTitle, updateTask, addTask }) => {
-  const currentTasks = tasks.filter(task => task.status === columnTitle);
+  const currentTasks = tasks.filter((task) => task.status === columnTitle);
   return (
     <div className="column-list">
       <h3>{columnTitle}</h3>
 
-      <If test={columnTitle === 'To Do'}>
-        <form onSubmit={e => addTask(e)}>
+      <If test={columnTitle === "To Do"}>
+        <form onSubmit={(e) => addTask(e)}>
           <input type="text" />
           <button type="submit">Criar tarefa</button>
         </form>
       </If>
 
       <ul>
-        {currentTasks.map(task => (
+        {currentTasks.map((task) => (
           <li key={task.id}>
             <input
               type="checkbox"
-              onChange={e => updateTask}
-              checked={columnTitle === 'Done'}
+              onChange={(e) => updateTask(e.target, task)}
+              checked={columnTitle === "Done"}
             />
             <span>{task.description}</span>
           </li>
@@ -34,4 +34,3 @@ const ColumnList = ({ tasks, columnTitle, updateTask, addTask }) => {
 };
 
 export default ColumnList;
-
